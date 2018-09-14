@@ -1,20 +1,20 @@
-/target/
-!.mvn/wrapper/maven-wrapper.jar
+.*
+!.gitignore
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Avoid ignoring Maven/Gradle wrapper jar file (.jar files are usually ignored)
+!gradle/wrapper/gradle-wrapper.jar
+!/.mvn/wrapper/maven-wrapper.*
+
+*.episode
+**/generated/
 
 ### IntelliJ IDEA ###
-.idea
 *.iws
 *.iml
 *.ipr
+/out/
+/build/
+*.stackdump
 
 ### NetBeans ###
 /nbproject/private/
@@ -23,3 +23,13 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
