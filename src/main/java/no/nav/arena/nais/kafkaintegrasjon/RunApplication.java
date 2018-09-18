@@ -1,5 +1,6 @@
 package no.nav.arena.nais.kafkaintegrasjon;
 
+import no.nav.arena.nais.kafkaintegrasjon.kafka.KafkaEmbeddedServer;
 import io.prometheus.client.exporter.MetricsServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,11 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+public class RunApplication {
 
-public class KafkaintegrasjonApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(KafkaintegrasjonApplication.class, args);
+        KafkaEmbeddedServer.startEmbeddedKafka();
+        SpringApplication.run(RunApplication.class, args);
     }
 
     // Prometheus
