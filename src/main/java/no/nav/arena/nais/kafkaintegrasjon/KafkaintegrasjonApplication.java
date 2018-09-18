@@ -28,7 +28,6 @@ public class KafkaintegrasjonApplication {
 
     private void sendMessage() {
         kafkaTemplate.send(TOPIC_NAME, "HELLO WORLD!!");
-        kafkaTemplate.send(TOPIC_NAME, "NEW MESSAGE");
     }
 
     @KafkaListener(topics = TOPIC_NAME, groupId = GROUP_NAME)
