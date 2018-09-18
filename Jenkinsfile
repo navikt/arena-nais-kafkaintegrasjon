@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'mvn -B -DskipTest clean package'
+                sh 'mvn -B -DskipTests clean package'
             }
         }
 
@@ -19,7 +19,7 @@ pipeline {
                 script {
                     checkout scm
                     docker.withRegistry('https://docker.adeo.no:5000/') {
-                        def image = docker.build("kafkaintegrasjon:1.0.${env.BUILD_ID}", "--build-arg JAR_FILE=kafkaintegrasjon-0.0.1-SNAPSHOT.jar .")
+                        def image = docker.build("arena-nais-kafkaintegrasjon:1.0.${env.BUILD_ID}", "--build-arg JAR_FILE=arena-nais-kafkaintegrasjon-0.0.1-SNAPSHOT.jar .")
                         image.push()
                         image.push 'latest'
                     }
@@ -32,7 +32,7 @@ pipeline {
                 script {
 
                         sh "nais validate"
-                        sh "nais upload --app kafkaintegrasjon -v 1.0.${env.BUILD_ID}"
+                        sh "nais upload --app arena-nais-kafkaintegrasjon -v 1.0.${env.BUILD_ID}"
 
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
             steps {
                 script {
 
-                        sh "nais deploy -c preprod-fss -z fss -a kafkaintegrasjon -v 1.0.${env.BUILD_ID} --skip-fasit"
+                        sh "nais deploy -c preprod-fss -z fss -a arena-nais-kafkaintegrasjon -v 1.0.${env.BUILD_ID} --skip-fasit"
 
                 }
             }
