@@ -1,0 +1,17 @@
+# Connect to docker-container
+docker exec -it arena-nais-kafkaintegrasjon_kafka_1 bash
+
+# Create topic
+/opt/bitnami/kafka/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --topic test-topic --partitions 1 --replication-factor 1
+
+# List topics
+/opt/bitnami/kafka/bin/kafka-topics.sh --list --zookeeper zookeeper:2181
+
+# Describe topics
+/opt/bitnami/kafka/bin/kafka-topics.sh --describe --zookeeper zookeeper:2181 --topic test-topic
+
+# Publish to a topic
+/opt/bitnami/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test-topic
+
+# Consume from a topic
+/opt/bitnami/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-topic
