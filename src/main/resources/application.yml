@@ -1,0 +1,11 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /redis
+
+spring:
+    redis:
+      host: ${APP_REDIS_HOST:rfs-kafkaintegrasjon}
+      port: ${APP_REDIS_PORT:26379}
+      sentinel:
+        master: mymaster
