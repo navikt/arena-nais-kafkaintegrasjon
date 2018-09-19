@@ -1,20 +1,75 @@
 name: arena-nais-kafkaintegrasjon
-image: docker.adeo.no:5000/arena-nais-kafkaintegrasjon
+image: docker.adeo.no:5000/arena-nais/arena-nais-kafkaintegrasjon
 team: arena
-replicas:
-  min: 1
-  max: 2
-port: 8080
-
+replicas: # set min = max to disable autoscaling
+  min: 1 # minimum number of replicas.
+  max: 2 # maximum number of replicas
+  cpuThresholdPercentage: 50 # total cpu percentage threshold on deployment, at which point it will increase number of pods if current < max
+port: 8080 # the port number which is exposed by the container and should receive traffic
 healthcheck: # Optional
-    liveness:
-      path: /actuator/health
-      initialDelay: 60
-      timeout: 10
-      periodSeconds: 10     # How often (in seconds) to perform the probe. Default to 10 seconds
-      failureThreshold: 6
+  liveness:
+    path: /api/internal/status
+    initialDelay: 60
+    timeout: 10
+    periodSeconds: 10     # How often (in seconds) to perform the probe. Default to 10 seconds
+    failureThreshold: 5 # when a Pod starts and the probe fails,
+      # nais will try failureThreshold times before giving up and restarting the Pod
+    # Defaults to 3
+  readiness:
+    path: /api/internal/status
+    initialDelay: 60
+    timeout: 10
+# Optional. Defaults to NONE.
+# See https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+preStopHookPath: "" # a HTTP GET will be issued to this endpoint at least once before the pod is terminated
+resources: # Optional. See: http://kubernetes.io/docs/user-guide/compute-resources/
+  limits:
+    cpu: 1000m # app will have its cpu usage throttled if exceeding this limit
+    memory: 1024Mi  # app will be killed if exceeding these limits
+  requests: # App is guaranteed the requested resources and  will be scheduled on nodes with at least this amount of resources available
+    cpu: 200m
+    memory: 512Mi
 
-    readiness:
-      path: /actuator/health
-      initialDelay: 60
-      timeout: 10
+alerts:
+- alert: arena-nais-kafkaintegrasjon deployed
+  expr: kube_deployment_status_replicas_unavailable{deployment="arena-nais-kafkaintegrasjon"} > 0
+  for: 5m
+  labels:
+    severity: Warning
+  annotations:
+    action: Investigate why arena-nais-kafkaintegrasjon can't spawn pods. kubectl describe deployment arena-nais-kafkaintegrasjon, kubectl describe pod arena-nais-kafkaintegrasjon-*.
+logformat: accesslog # Optional. The format of the logs from the container if the logs should be handled differently than plain text or json
+logtransform: dns_loglevel # Optional. The transformation of the logs, if they should be handled differently than plain text or json
+webproxy: false # Optional. Expose web proxy configuration to the application using the HTTP_PROXY, HTTPS_PROXY and NO_PROXY environment variables.
+
+prometheus: #Optional
+  enabled: true # if true the pod will be scraped for metrics by prometheus
+  path: /prometheus # Path to prometheus-metrics
+
+# if redis: true, then this will add Redis sentinels that can be reach on
+#   rfs-<your-app-name> with port 26379, and mymaster as the name of the master
+redis: true
+
+#ingress:
+#  disabled: false # if true, no ingress will be created and application can only be reached from inside cluster
+
+#istio:
+#  enabled: false # when true, envoy-proxy sidecar will be injected into pod and https urls envvars will be rewritten
+
+#leaderElection: false # if true, a http endpoint will be available at $ELECTOR_PATH that return the current leader
+# Compare this value with the $HOSTNAME to see if the current instance is the leader
+
+#fasitResources: # resources fetched from Fasit
+#  used: # this will be injected into the application as environment variables
+#  - alias: mydb
+#    resourceType: datasource
+#    # use propertyMap to map properties to custom environment variables
+#    # env vars should be UPPERCASED_AND_UNDERSCORED
+#    propertyMap:
+#      username: DB_USERNAME # map the "username" property of mydb to DB_USERNAME
+#  - alias: someservicenai
+#    resourceType: restservice
+#  exposed: # Will be registered as exposed services on an application instane in Fasit
+#  - alias: myservice
+#    resourceType: restservice
+#    path: /api
