@@ -1,28 +1,28 @@
 package no.nav.arena.nais.kafkaintegrasjon.redis.controller;
 
-import java.util.Map;
-
 import io.prometheus.client.Counter;
+import no.nav.arena.nais.kafkaintegrasjon.redis.model.Customer;
+import no.nav.arena.nais.kafkaintegrasjon.redis.repo.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.arena.nais.kafkaintegrasjon.redis.model.Customer;
-import no.nav.arena.nais.kafkaintegrasjon.redis.repo.CustomerRepository;
+import java.util.Map;
 
 
 @RestController
+@RequestMapping("/redis")
 public class WebController {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+	private final Counter httpRequestsTotal;
 
-	// Prometheus
-	private static final Counter httpRequestsTotal = Counter
-			.build("http_requests_total", "Total number of HTTP Requests")
-			.labelNames("path")
-			.register();
+	@Autowired
+    public WebController(Counter counter) {
+        httpRequestsTotal = counter;
+	}
 
 	@RequestMapping("/save")
 	public String save() {
