@@ -5,7 +5,7 @@
 
     <groupId>no.nav.arena.nais</groupId>
     <artifactId>arena-nais-kafkaintegrasjon</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <name>arena-nais-kafkaintegrasjon</name>
