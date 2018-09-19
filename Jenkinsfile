@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     checkout scm
-                    docker.withRegistry('https://docker.adeo.no:5000/') {
+                    docker.withRegistry('https://docker.adeo.no:5000/arena-nais/') {
                         def image = docker.build("arena-nais-kafkaintegrasjon:1.0.${env.BUILD_ID}", "--build-arg JAR_FILE=arena-nais-kafkaintegrasjon-0.0.1-SNAPSHOT.jar .")
                         image.push()
                         image.push 'latest'
