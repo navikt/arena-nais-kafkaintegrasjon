@@ -157,15 +157,9 @@ node {
             for (int ii=0; ii<clusters.size(); ii++) {
                 timeout(time: 8, unit: 'MINUTES') {
 
-                    // NB! fasit integration requires navident+passwd for authentication...
-                    // F.eks. you can use a shared serviceUser and add in JenkinsCredentials
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'navident-yg', usernameVariable: 'NAVIDENT_USERNAME', passwordVariable: 'NAVIDENT_PASSWORD']]) {
-                        sh "${NAIS_HOME} deploy -a ${application} -v ${releaseVersion} -c ${clusters[ii]} -u '${NAVIDENT_USERNAME}' -p '${NAVIDENT_PASSWORD}' --wait "
-                    }
-                    /*
                     // deploy by ignoring FASIT integration
                     sh "${NAIS_HOME} deploy -a ${application} -v ${releaseVersion} -c ${clusters[ii]} --skip-fasit --wait "
-                    */
+
                 }
             }
             slackSend([
