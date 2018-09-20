@@ -42,7 +42,8 @@ node {
     def NAIS_HOME = "/opt/nais-cli/bin/nais"
     def naisConfig = "nais.yaml"
     // NAIS environment
-    def clusters = ['preprod-fss', 'prod-fss']
+    //def clusters = ['preprod-fss', 'prod-fss']
+    def clusters = ['preprod-fss']
     //def environment = 'q0' // preprod
     //def zone = 'fss'
     //def namespace = 'default'
