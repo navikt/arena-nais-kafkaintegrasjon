@@ -34,7 +34,7 @@ public class WebController {
 		customerRepository.save(new Customer(5, "Peter", "Davis"));
 
 		// Prometheus - tell opp antall requests
-		httpRequestsTotal.labels("/save").inc();
+		httpRequestsTotal.labels("/redis/save").inc();
 
 		return "Done";
 	}
@@ -49,7 +49,7 @@ public class WebController {
 		}
 
 		// Prometheus - tell opp antall requests
-		httpRequestsTotal.labels("/findall").inc();
+		httpRequestsTotal.labels("/redis/findall").inc();
 
 		return result;
 	}
@@ -60,7 +60,7 @@ public class WebController {
 		result = customerRepository.find(id).toString();
 
 		// Prometheus - tell opp antall requests
-		httpRequestsTotal.labels("/find-id").inc();
+		httpRequestsTotal.labels("/redis/find-id").inc();
 
 		return result;
 	}
@@ -74,7 +74,7 @@ public class WebController {
 		customerRepository.update(customer);
 
 		// Prometheus - tell opp antall requests
-		httpRequestsTotal.labels("/uppercase-id").inc();
+		httpRequestsTotal.labels("/redis/uppercase-id").inc();
 
 		return "Done";
 	}
@@ -84,7 +84,7 @@ public class WebController {
 		customerRepository.delete(id);
 
 		// Prometheus - tell opp antall requests
-		httpRequestsTotal.labels("/delete-id").inc();
+		httpRequestsTotal.labels("/redis/delete-id").inc();
 
 		return "Done";
 	}
