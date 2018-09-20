@@ -38,7 +38,7 @@ public class KafkaEmbeddedServer {
                 collect(Collectors.joining(","));
 
         kafkaEnvironment.start();
-        LOG.info("Embedded Kafak started with brokers {}", brokers);
+        LOG.info("Embedded Kafka started with brokers {}", brokers);
         System.setProperty("kafkaHost", brokers);
     }
 }
