@@ -1,6 +1,8 @@
 package no.nav.arena.nais.kafkaintegrasjon.redis.controller;
 
 import io.prometheus.client.Counter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import no.nav.arena.nais.kafkaintegrasjon.redis.model.Customer;
 import no.nav.arena.nais.kafkaintegrasjon.redis.repo.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/redis")
 public class WebController {
+
+	private static final Logger LOG = LoggerFactory.getLogger(WebController.class);
 
 	@Autowired
 	private CustomerRepository customerRepository;

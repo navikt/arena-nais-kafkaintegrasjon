@@ -2,6 +2,8 @@ package no.nav.arena.nais.kafkaintegrasjon.kafka;
 
 import no.nav.common.KafkaEnvironment;
 import no.nav.common.embeddedutils.ServerBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
@@ -10,6 +12,8 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class KafkaEmbeddedServer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(KafkaEmbeddedServer.class);
 
     private static KafkaEnvironment kafkaEnvironment;
 
@@ -34,6 +38,7 @@ public class KafkaEmbeddedServer {
                 collect(Collectors.joining(","));
 
         kafkaEnvironment.start();
+        LOG.info("Embedded Kafak started with brokers {}", brokers);
         System.setProperty("kafkaHost", brokers);
     }
 }
