@@ -1,25 +1,6 @@
 version: "2.2"
 
 services:
-  arena-nais-kafkaintegrasjon:
-      build:
-        context: .
-        dockerfile: Dockerfile
-        args:
-          JAR_FILE: arena-nais-kafkaintegrasjon-0.0.5-SNAPSHOT.jar
-          SPRING_PROFILES_ACTIVE: local
-      image: arena-nais-kafkaintegrasjon:0.2
-      container_name: arena-nais-kafkaintegrasjon
-      hostname: arena-nais-kafkaintegrasjon
-      links:
-        - redis
-      ports:
-        - "8080:8080"
-      depends_on:
-        - redis
-      environment:
-        - APP_REDIS_HOST=redis
-        - APP_REDIS_PORT=6379
   redis:
     image: 'bitnami/redis:latest'
     container_name: redis
