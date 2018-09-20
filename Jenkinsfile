@@ -91,10 +91,10 @@ node {
                 sh "${mvn} versions:set -B -DnewVersion=${releaseVersion} -DgenerateBackupPoms=false"
 
                 //sh "${mvn} clean package spring-boot:repackage -e -DskipTests"
-                sh "${mvn} clean package -DskipTests"
+                sh "${mvn} clean package -Dspring.profiles.active=local -DskipTests"
 
                 //sh "docker build --build-arg version=${releaseVersion} --build-arg app_name=${application} -t ${dockerRepo}/${application}:${releaseVersion} ."
-                sh "docker build --build-arg JAR_FILE=${application}-${releaseVersion}.jar -t ${dockerRepo}/${application}:${releaseVersion} --rm=true ."
+                sh "docker build --build-arg JAR_FILE=${application}-${releaseVersion}.jar --build-arg SPRING_PROFILES_ACTIVE=nais -t ${dockerRepo}/${application}:${releaseVersion} --rm=true ."
 
                 sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
                 sh "git push origin ${branch}"
