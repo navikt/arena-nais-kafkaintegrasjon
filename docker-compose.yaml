@@ -6,7 +6,7 @@ services:
         context: .
         dockerfile: Dockerfile
         args:
-          JAR_FILE: arena-nais-kafkaintegrasjon-0.0.4-SNAPSHOT.jar
+          JAR_FILE: arena-nais-kafkaintegrasjon-0.0.5-SNAPSHOT.jar
           SPRING_PROFILES_ACTIVE: local
       image: arena-nais-kafkaintegrasjon:0.2
       container_name: arena-nais-kafkaintegrasjon
