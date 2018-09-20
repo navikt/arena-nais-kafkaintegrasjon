@@ -1,2 +1,5 @@
 server:
   port: 8080
+
+arena-nais-kafkaintegrasjon:
+  kafka-topics: "topic1,topic2,topic3"
