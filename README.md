@@ -15,8 +15,9 @@ TODO
 
 Spørsmål knyttet til koden eller prosjektet kan rettes mot:
 
-* Navn på Person, andreas.strand@nav.no
+* Team NAISers  
+* Andreas Strand, andreas.strand@nav.no  
 
 ## For NAV-ansatte
 
-Interne henvendelser kan sendes via Slack i kanalen #team-naisers.
+Interne henvendelser kan sendes via Slack i kanalen #team-NAISers  
