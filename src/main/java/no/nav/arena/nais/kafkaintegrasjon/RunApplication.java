@@ -1,6 +1,5 @@
 package no.nav.arena.nais.kafkaintegrasjon;
 
-import no.nav.arena.nais.kafkaintegrasjon.kafka.KafkaEmbeddedServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +12,6 @@ public class RunApplication {
     public ServletRegistrationBean prometheusServlet;
 
     public static void main(String[] args) {
-        KafkaEmbeddedServer.startEmbeddedKafka();
         SpringApplication.run(RunApplication.class, args);
     }
 }
