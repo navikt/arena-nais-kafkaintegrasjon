@@ -55,7 +55,7 @@ public class TestController {
      * @return HttpStatus
      */
     @PostMapping("/kafka/send-message")
-    public ResponseEntity<String> sendMessageForm(@ModelAttribute KafkaMessage message) {
+    public ResponseEntity<String> sendMessageForm(@RequestBody KafkaMessage message) {
         metricsCounter.labels("/api/kafka/send-message").inc();
 
         kafkaProducer.sendMessage(message);
