@@ -4,6 +4,8 @@ import io.prometheus.client.Counter;
 import no.nav.arena.nais.kafkaintegrasjon.kafka.KafkaConsumer;
 import no.nav.arena.nais.kafkaintegrasjon.kafka.KafkaMessage;
 import no.nav.arena.nais.kafkaintegrasjon.kafka.KafkaProducer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import no.nav.arena.nais.kafkaintegrasjon.kafka.config.KafkaConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class TestController {
+
+    private static Logger LOG = LoggerFactory.getLogger(TestController.class);
 
     private final KafkaProducer kafkaProducer;
     private final KafkaConsumer kafkaConsumer;
