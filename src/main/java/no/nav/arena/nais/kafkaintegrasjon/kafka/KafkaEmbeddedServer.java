@@ -1,14 +1,11 @@
 package no.nav.arena.nais.kafkaintegrasjon.kafka;
 
+import no.nav.arena.nais.kafkaintegrasjon.kafka.config.KafkaConfig;
 import no.nav.common.KafkaEnvironment;
 import no.nav.common.embeddedutils.ServerBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class KafkaEmbeddedServer {
@@ -26,7 +23,7 @@ public class KafkaEmbeddedServer {
 
         kafkaEnvironment = new KafkaEnvironment(
                 1,
-                Arrays.asList("topic1"),
+                KafkaConfig.getKafkaTopics(),
                 false,
                 false,
                 false
