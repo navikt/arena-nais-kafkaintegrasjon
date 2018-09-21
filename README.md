@@ -3,11 +3,15 @@ Kafkaintegrasjon
 
 Demoprosjekt for Arena for å teste Kafkaintegrasjon og Nais plattform.
 
+Prosjektet kjører en embedded Kafka instans for å teste ut Kafka med Java og Spring.
+
 # Komme i gang
 
-Prosjektet skal kunne kjøres som et vanlig Spring-boot prosjekt.
+Prosjektet skal kunne kjøres som et vanlig Spring-boot prosjekt. Bruk Spring-profil 'local' for utvikling lokalt.
 
-TODO
+Prosjektet avhenger av å ha en Redis-database kjørende, som brukes som en in-memory database. 
+`docker-compose up` vil kjøre opp en Redis-instans med riktig mapping av port for utvikling lokalt.
+
 
 ---
 

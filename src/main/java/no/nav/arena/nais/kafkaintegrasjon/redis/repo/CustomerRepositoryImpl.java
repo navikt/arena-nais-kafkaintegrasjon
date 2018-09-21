@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,6 +16,8 @@ import no.nav.arena.nais.kafkaintegrasjon.redis.model.Customer;
 
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
+
+	private static final Logger LOG = LoggerFactory.getLogger(CustomerRepositoryImpl.class);
 
 	private static final String KEY = "Customer";
 

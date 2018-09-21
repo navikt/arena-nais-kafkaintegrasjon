@@ -3,3 +3,15 @@ server:
 
 arena-nais-kafkaintegrasjon:
   kafka-topics: "topic1,topic2,topic3"
+
+logging:
+  level:
+    root: INFO
+    DEBUGLOGGER: DEBUG
+    org:
+      springframework:
+        web: INFO
+        filter:
+          CommonsRequestLoggingFilter: DEBUG
+      hibernate: ERROR
+
