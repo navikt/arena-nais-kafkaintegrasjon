@@ -15,12 +15,12 @@ public class KafkaProducer {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public synchronized void sendMessage(String msg, String topic){
-        System.out.println("\nSending message on topic " + topic + "\n");
+        System.out.println("\nSending message '" + msg + "' on topic " + topic + "\n");
         kafkaTemplate.send(topic, msg);
     }
 
     public synchronized void sendMessage(KafkaMessage message){
-        System.out.println("\nSending message on topic " + message.getTopic() + "\n");
+        System.out.println("\nSending message '" + message.getText() + "' on topic " + message.getTopic() + "\n");
         kafkaTemplate.send(message.getTopic(), message.getText());
     }
 }
