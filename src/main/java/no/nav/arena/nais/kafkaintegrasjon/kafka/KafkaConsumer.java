@@ -19,13 +19,7 @@ public class KafkaConsumer {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class);
 
-    private List<KafkaMessage> consumedMessages = new ArrayList();
-
-
-    @KafkaListener(topics = "topic1", groupId = "test")
-    public void listen(@Payload String message){
-        System.out.println(message);
-    }
+    private List<KafkaMessage> consumedMessages = new ArrayList<>();
 
     @KafkaListener(topics = "#{'${arena-nais-kafkaintegrasjon.kafka-topics}'.split(',')}", groupId = "test")
     public void listen(
