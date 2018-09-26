@@ -48,7 +48,8 @@ prometheus: #Optional
 
 # if redis: true, then this will add Redis sentinels that can be reach on
 #   rfs-<your-app-name> with port 26379, and mymaster as the name of the master
-redis: true
+redis:
+  enabled: true
 
 #ingress:
 #  disabled: false # if true, no ingress will be created and application can only be reached from inside cluster
