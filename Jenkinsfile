@@ -134,14 +134,13 @@ node {
             println("[INFO] display 'nais version'")
             sh "${NAIS_HOME} version"
 
-            /*
             println("[INFO] Run 'nais validate'")
             sh "${NAIS_HOME} validate -f ${naisConfig}"
             slackSend([
                     color: 'good',
                     message: "${buildMeta} ${naisConfig} has been validated."
             ])
-            */
+
             println("[INFO] Run 'nais upload' ... to Nexus!")
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nais-uploader', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD']]) {
                 sh "${NAIS_HOME} upload -f ${naisConfig} -a ${application} -v ${releaseVersion} -u ${NEXUS_USERNAME} -p ${NEXUS_PASSWORD}"
