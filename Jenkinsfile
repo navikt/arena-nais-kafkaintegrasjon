@@ -27,7 +27,7 @@ node {
     def application = "arena-nais-kafkaintegrasjon"
     def repo = "navikt/arena-nais-kafkaintegrasjon"
     def groupId = "no.nav.arena.nais"
-    def branch = "master"
+    def branch = "kafkaIntegrasjon_Uzma"
 
     def dockerRepo = "docker.adeo.no:5000/arena-nais"
 
