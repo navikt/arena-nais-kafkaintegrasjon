@@ -1,6 +1,6 @@
 name: arena-nais-kafkaintegrasjon
 image: docker.adeo.no:5000/arena-nais/arena-nais-kafkaintegrasjon
-team: arena
+team: arena-nais
 replicas: # set min = max to disable autoscaling
   min: 1 # minimum number of replicas.
   max: 2 # maximum number of replicas
