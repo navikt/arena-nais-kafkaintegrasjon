@@ -47,13 +47,8 @@ node {
         stage("#0: pre-start") {
             buildMeta = "build# ${env.BUILD_ID} on ${env.JENKINS_URL} \n"
 
-            slackMessage = "Starting Jenkins ${buildMeta} \n gitRepo: ${repo} / ${BRANCH_NAME}"
             println("[INFO] Running ${buildMeta}")
             println("[INFO] gitRepo: ${repo} / ${BRANCH_NAME}")
-            slackSend([
-                    color: 'good',
-                    message: "${slackMessage}"
-            ])
         }
 
         stage("#1: checkout sourcecode") {
@@ -95,11 +90,6 @@ node {
                 sh "git push origin ${BRANCH_NAME}"
                 sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
                 sh "git push --tags"
-
-                slackSend([
-                        color: 'good',
-                        message: "${buildMeta} *${application}:${releaseVersion}* package artifact has been released."
-                ])
             }else{
                 println("[INFO] POM version is not a SNAPSHOT, it is ${pom.version}. Skipping releasing")
             }
@@ -146,15 +136,6 @@ node {
                 }
             }
         }
-
-        slackMessage = "${buildMeta} _Jenkins_ has buildt, published and deployed *${application}:${releaseVersion}* to _NAIS_"
-        slackMessage += "  \n\n See url:  \n"
-        slackMessage += "https://${application}.nais.preprod.local/  \n"
-        slackMessage += "https://${application}.nais.adeo.no/  \n"
-        slackSend([
-                color: 'good',
-                message: slackMessage
-        ])
     } catch (e) {
         println("[ERROR] " + e)
         slackSend([
@@ -183,14 +164,10 @@ node {
 
                 println("[INFO] releaseVersion: ${releaseVersion} / nextVersion: ${nextVersion}")
 
-                sh "${mvn} versions:set -B -DnewVersion=${nextVersion} -DgenerateBackupPoms=false"
-                sh "git commit -am \"updated to new dev-version ${nextVersion} after release by ${committer}\""
-                sh "git push origin ${BRANCH_NAME}"
+                // sh "${mvn} versions:set -B -DnewVersion=${nextVersion} -DgenerateBackupPoms=false"
+                // sh "git commit -am \"updated to new dev-version ${nextVersion} after release by ${committer}\""
+                // sh "git push origin ${BRANCH_NAME}"
 
-                slackSend([
-                        color: 'good',
-                        message: "${buildMeta} *${application}:${nextVersion}* as next-DEV-ver has been updated in pom and git."
-                ])
             } else {
                 println("[INFO] POM version is not a SNAPSHOT, it is ${pom.version}. Skip tagging dev-version!")
             }
