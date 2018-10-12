@@ -17,7 +17,6 @@ IMPORTANT!!!
     'Manage Jenkins -> Global Tool Configuration'
         -> Maven -> Maven installations
         maven-3.5.3 : /opt/apache-maven-3.5.3
-
 */
 
 def deployLib = new deploy()
@@ -41,18 +40,14 @@ node {
     def NAIS_HOME = "/opt/nais-cli/bin/nais"
     def naisConfig = "nais.yaml"
     // NAIS environment
-    //def clusters = ['preprod-fss', 'prod-fss']
     def clusters = ['preprod-fss']
-    //def environment = 'q0' // preprod
-    //def zone = 'fss'
-    //def namespace = 'default'
 
     try {
 
         stage("#0: pre-start") {
             buildMeta = "build# ${env.BUILD_ID} on ${env.JENKINS_URL} \n"
 
-            slackMessage = "[INFO] Pre-start ${buildMeta} \n gitRepo: ${repo} / ${BRANCH_NAME}"
+            slackMessage = "Starting Jenkins ${buildMeta} \n gitRepo: ${repo} / ${BRANCH_NAME}"
             println("[INFO] Running ${buildMeta}")
             println("[INFO] gitRepo: ${repo} / ${BRANCH_NAME}")
             slackSend([
@@ -117,10 +112,6 @@ node {
                 }
                 sh "docker push ${dockerRepo}/${application}:${releaseVersion}"
 
-                slackSend([
-                        color: 'good',
-                        message: "${buildMeta} *${application}:${releaseVersion}* Docker-image has been built and published to Docker repository."
-                ])
             } else {
                 println("[INFO] POM version is not a SNAPSHOT, it is ${pom.version}. Skipping publishing!")
             }
@@ -135,19 +126,11 @@ node {
 
             println("[INFO] Run 'nais validate'")
             sh "${NAIS_HOME} validate -f ${naisConfig}"
-            slackSend([
-                    color: 'good',
-                    message: "${buildMeta} ${naisConfig} has been validated."
-            ])
 
             println("[INFO] Run 'nais upload' ... to Nexus!")
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nais-uploader', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD']]) {
                 sh "${NAIS_HOME} upload -f ${naisConfig} -a ${application} -v ${releaseVersion} -u ${NEXUS_USERNAME} -p ${NEXUS_PASSWORD}"
             }
-            slackSend([
-                    color: 'good',
-                    message: "${buildMeta} ${naisConfig} for *${application}:${releaseVersion}* has been uploaded to Nexus."
-            ])
         }
 
         stage("#7: Deploy using NAIS-cli") {
@@ -162,14 +145,10 @@ node {
 
                 }
             }
-            slackSend([
-                    color: 'good',
-                    message: "${buildMeta} *${application}:${releaseVersion}* has been deployed to NAIS!!! :nais: "
-            ])
         }
 
-        slackMessage = "${buildMeta} _Jenkins_ har bygget, publisert og deployet akkurat nå *${application}:${releaseVersion}* til _NAIS!_"
-        slackMessage += "  \n\n see url:  \n"
+        slackMessage = "${buildMeta} _Jenkins_ has buildt, published and deployed *${application}:${releaseVersion}* to _NAIS_"
+        slackMessage += "  \n\n See url:  \n"
         slackMessage += "https://${application}.nais.preprod.local/  \n"
         slackMessage += "https://${application}.nais.adeo.no/  \n"
         slackSend([
@@ -178,7 +157,6 @@ node {
         ])
     } catch (e) {
         println("[ERROR] " + e)
-        //slackSend (color: 'warning', message: "@here ${env.JOB_NAME} failed... \n \n Committer: ${committer} \n Jenkins: ${env.JENKINS_URL} buildId: ${env.BUILD_ID}")
         slackSend([
                 color: 'danger',
                 message: "@here ${buildMeta} ${env.JOB_NAME} failed at some stage... \n \n Committer: ${committer}"
@@ -189,7 +167,7 @@ node {
         if (currentBuild.result == 'UNSTABLE') {
             slackSend([
                     color: 'danger',
-                    message: "${buildMeta} ${env.JOB_NAME} was somehow unstable..."
+                    message: "${buildMeta} ${env.JOB_NAME} is unstable."
             ])
         }
 
