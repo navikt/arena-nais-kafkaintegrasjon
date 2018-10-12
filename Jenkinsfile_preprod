@@ -27,7 +27,7 @@ node {
     def application = "arena-nais-kafkaintegrasjon"
     def repo = "navikt/arena-nais-kafkaintegrasjon"
     def groupId = "no.nav.arena.nais"
-    def branch = "master"
+    ∕∕def branch = "master"
 
     def dockerRepo = "docker.adeo.no:5000/arena-nais"
 
@@ -53,9 +53,9 @@ node {
         stage("#0: pre-start") {
             buildMeta = "build# ${env.BUILD_ID} on ${env.JENKINS_URL} \n"
 
-            slackMessage = "[INFO] Pre-start ${buildMeta} \n gitRepo: ${repo} / ${BRANCH}"
+            slackMessage = "[INFO] Pre-start ${buildMeta} \n gitRepo: ${repo} / ${BRANCH_NAME}"
             println("[INFO] Running ${buildMeta}")
-            println("[INFO] gitRepo: ${repo} / ${BRANCH}")
+            println("[INFO] gitRepo: ${repo} / ${BRANCH_NAME}")
             slackSend([
                     color: 'good',
                     message: "${slackMessage}"
@@ -66,7 +66,7 @@ node {
 
             // NB! make sure you've added GITHUB_TOKEN (which has access to repo) to Jenkins Credentials
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'github-token', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN']]) {
-                git url: "https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${repo}.git", branch: "${BRANCH}"
+                git url: "https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${repo}.git", branch: "${BRANCH_NAME}"
             }
         }
 
@@ -98,7 +98,7 @@ node {
                 sh "docker build --build-arg JAR_FILE=${application}-${releaseVersion}.jar --build-arg SPRING_PROFILES_ACTIVE=nais -t ${dockerRepo}/${application}:${releaseVersion} --rm=true ."
 
                 sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
-                sh "git push origin ${BRANCH}"
+                sh "git push origin ${BRANCH_NAME}"
                 sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
                 sh "git push --tags"
 
@@ -208,7 +208,7 @@ node {
 
                 sh "${mvn} versions:set -B -DnewVersion=${nextVersion} -DgenerateBackupPoms=false"
                 sh "git commit -am \"updated to new dev-version ${nextVersion} after release by ${committer}\""
-                sh "git push origin ${BRANCH}"
+                sh "git push origin ${BRANCH_NAME}"
 
                 slackSend([
                         color: 'good',
